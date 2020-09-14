@@ -6,7 +6,7 @@ const app = express();
 var http = require('http').createServer(app)
 var io = require('socket.io')(http);
 
-var cekToken = require('./middleware/cekToken');
+var onOffRelay = require('./middleware/onOffRelay');
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(function(req,res,next){
@@ -24,8 +24,13 @@ routes(app);
 //manggil routes baru yaitu rotes auth
 app.use('/auth', require('./middleware'));
 
-app.get('/', function(req, res){
+//rootes cilent test ws
+app.get('/client1', function(req, res){
     res.sendFile(__dirname+'/index.html');
+});
+
+app.get('/client2', function(req, res){
+    res.sendFile(__dirname+'/client2.html');
 });
 
 // koneksi socket
@@ -42,10 +47,10 @@ io.on('connection', function(socket){
     	}
     });
 
-    //fungsi cek token
-    socket.on('auth', function(data){
+    //fungsi on/off relay
+    socket.on('onOffRelay', function(data){
     	//console.log(auth);
-    	cekToken(socket, data);
+    	onOffRelay(socket, data);
     	
     });
 

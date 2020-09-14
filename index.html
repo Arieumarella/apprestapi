@@ -41,11 +41,15 @@
         console.log(data);
       });
 
-      socket.emit('auth', {token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb3dzIjpbeyJpZCI6MjMsImlkX2RldmljZSI6MSwibmFtYSI6ImRlZmF1bHQiLCJ1c2VybmFtZSI6ImRlZmF1bHQiLCJwYXNzd29yZCI6ImMyMWY5NjliNWYwM2QzM2Q0M2UwNGY4ZjEzNmU3NjgyIiwidGFuZ2dhbF9kYWZ0YXIiOiIyMDIwLTA4LTI5VDE3OjAwOjAwLjAwMFoifV0sImlhdCI6MTYwMDAzMDEyOSwiZXhwIjoxNjAwMDMxNTY5fQ.8tAZGCUDPDNNG-2dpooaTDlzpQXDIfZvWlp2SJuLgZU',
-        id: '3',
-        id_relay: '1',
-        kondisi: 'mentala'
-    });
+      socket.emit('onOffRelay', {token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb3dzIjpbeyJpZCI6MjMsImlkX2RldmljZSI6MSwibmFtYSI6ImRlZmF1bHQiLCJ1c2VybmFtZSI6ImRlZmF1bHQiLCJwYXNzd29yZCI6ImMyMWY5NjliNWYwM2QzM2Q0M2UwNGY4ZjEzNmU3NjgyIiwidGFuZ2dhbF9kYWZ0YXIiOiIyMDIwLTA4LTI5VDE3OjAwOjAwLjAwMFoifV0sImlhdCI6MTYwMDEwODA4MCwiZXhwIjoxNjAwMTk0NDgwfQ._Se1zuRWUzjw9UEaOBIBRxfI4MGEikFDLpJs00RUUuU',
+        id_relay: '8',
+        id_device: '1',
+        kondisi: '0'
+      });
+
+      socket.on('onOff.Balas', function(data){
+        console.log(data);
+      });
     
 </script>
   </body>

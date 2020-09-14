@@ -1,0 +1,58 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Socket.IO chat</title>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body { font: 13px Helvetica, Arial; }
+      form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
+      form input { border: 0; padding: 10px; width: 90%; margin-right: 0.5%; }
+      form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
+      #messages { list-style-type: none; margin: 0; padding: 0; }
+      #messages li { padding: 5px 10px; }
+      #messages li:nth-child(odd) { background: #eee; }
+    </style>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  </head>
+  <body>
+    <ul id="messages"></ul>
+    <form action="">
+      <input id="m" autocomplete="off" /><button>Send</button>
+    </form>
+
+    <script>
+
+    var socket = io();
+    //socket.on('hello', (data) => console.log(data));
+
+    socket.on('datarelay', (data) => console.log(data));    
+
+    //socket.on('satuan', (data) => console.log(data));
+
+    //socket.on('semuabor', (data) => console.log(data));    
+
+    // kirim id user ke server
+    
+      //send the jwt
+     // socket.emit('fws.test', {someData: 'test gaes'});
+
+      socket.on('fws.test.res', function(data) {
+        console.log(data);
+      });
+
+      socket.emit('onOffRelay', {token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb3dzIjpbeyJpZCI6MjIsImlkX2RldmljZSI6MSwibmFtYSI6ImFyaWUgdW1hcnVkaW4iLCJ1c2VybmFtZSI6InVtYXIiLCJwYXNzd29yZCI6IjkyZGViM2YyNzRhYWVlMjM2MTk0YzA1NzI5YmZhNDQzIiwidGFuZ2dhbF9kYWZ0YXIiOiIyMDIwLTA4LTI5VDE3OjAwOjAwLjAwMFoifV0sImlhdCI6MTYwMDExMDQyNywiZXhwIjoxNjAwMTk2ODI3fQ.Rq3sLZEwQm3sfXPJyHoGJvf1B56-C_Vd8IB2u1FY3-0',
+        id_relay: '10',
+        id_device: '1',
+        kondisi: '0'
+      });
+
+       socket.on('onOff.Balas', function(data){
+        console.log(data);
+      });
+
+
+    
+</script>
+  </body>
+</html>

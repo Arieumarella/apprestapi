@@ -67,11 +67,15 @@ exports.login = function(req, res){
 			console.log(error);
 		}else{
 			if(rows.length == 1){
+				
+				id_user = rows[0].id;
+
+
 				var token = jwt.sign({rows}, config.secret,{
-					expiresIn: 1440
+					expiresIn: '24h'
 				});
 
-				id_user = rows[0].id;
+				
 
 				var data = {
 					id_user: id_user,
@@ -88,9 +92,6 @@ exports.login = function(req, res){
 						console.log(error);
 					}else{
 
-						var data2 = {
-							akses: 0
-						}
 
 						var query ="SELECT * FROM ?? WHERE ??=? OR ??=?";
 						var table =["relay", "id_user", data.id_user, "id_user",23];
@@ -107,7 +108,7 @@ exports.login = function(req, res){
 
 								res.json({
 								success: true,
-								massage: "token JWT berhasil di buat.!",
+								massage: "token JWT berhasil di buat nih bor.!",
 								token: token,
 								id_user: data.id_user,
 								data_relay: data3.relay

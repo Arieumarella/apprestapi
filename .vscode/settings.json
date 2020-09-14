@@ -1,0 +1,9 @@
+{
+    "task.autoDetect": "off",
+    "search.collapseResults": "alwaysCollapse",
+    "editor.acceptSuggestionOnEnter": "off",
+    "emmet.showExpandedAbbreviation": "never",
+    "git.inputValidation": "off",
+    "editor.find.addExtraSpaceOnTop": false,
+    "terminal.integrated.environmentChangesIndicator": "off"
+}
