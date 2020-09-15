@@ -10,6 +10,17 @@ exports.ok = function (values, res) {
     res.end();
 };
 
+
+exports.yak = function (values, res) {
+    var data = {
+        'status': 200,
+        'massage': values
+    };
+
+    res.json(data);
+    res.end();
+};
+
 // respond untuk relay kepunyaan
 exports.oknested = function (values, res){
 	const hasil = values.reduce((akumulasikan, item)=>{
