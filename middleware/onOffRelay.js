@@ -53,10 +53,63 @@ var mysql = require('mysql');
 												socket.emit('onOff.Balas',"error boor");
 
 											}else{
+															
+												var query = "SELECT * FROM ?? WHERE ??=? AND ??=? AND ??=?";
+												var table = ["relay", "id", data1.id_relay, "id_user", data1.id_user, "id_device", data1.id_device];
+												query = mysql.format(query,table);
 
-												socket.emit('onOff.Balas',{status:200, auth:true, message:'Data relay udah di ubah borr.!!'});
-												console.log({status:200, auth:true, message:'Data relay udah di ubah borr.!!'});
+												connection.query(query, function(err, rows){
+													if (err) {
+														socket.emit('onOff.Balas', err);
+													}else{
+														var data3 = {
+															status:200, 
+															auth:true, 
+															message:'Data relay udah di ubah borr.!!', 
+															dataRelay: rows[0]
+														}
 
+														//console.log(data3.dataRelay.id_user);
+
+														if (data3.dataRelay.id_user != 23) {
+
+															socket.emit('onOff.Balas',data3);
+															console.log(data3);
+
+														}else{
+
+															if (data1.kondisi != 1) {
+
+																var data4 = {
+																	status:200,
+																	auth: true,
+																	message:'Relay '+data3.dataRelay.nama_relay+ ' Telah dimatikan nih boor',
+																	dataRelay: data3.dataRelay
+																}
+
+																socket.broadcast.emit('onOff.Balas', data4);
+																socket.emit('onOff.Balas', data4);
+																
+
+															}else{
+
+																var data5 = {
+																	status:200,
+																	auth: true,
+																	message:'Relay '+data3.dataRelay.nama_relay+ ' Telah dinyalakan nih boor',
+																	dataRelay: data3.dataRelay
+																}
+
+																socket.broadcast.emit('onOff.Balas', data5);
+																socket.emit('onOff.Balas', data5);
+
+															}
+
+															
+														}
+														
+													}
+												});
 											}
 										});
 									}else{
@@ -79,7 +132,7 @@ var mysql = require('mysql');
 		}else{
 			//return res.status(401).send({auth:false, message:'Token tidak tersedia.!'});
 			console.log({auth:false, message:'Token tidak tersedia.!'});
-			socket.emit('onOff.Balas',{status:403, auth:false, message:'Token tidak tersedia.!'});
+			socket.emit('onOff.Balas',{status:403, auth:false, message:'Token tidak tersedia bor.!'});
 		}
 	
 };
