@@ -17,7 +17,7 @@ function verifikasi(){
 					return res.status(401).send({auth:false, message:'Token tidak terdaftar.!'});
 				}else{
 						//Jika benar gas bor
-						//req.auth = decoded;
+						req.auth = decoded;
 						var id_user = decoded.rows[0].id;
 						console.log(id_user);
 						next();

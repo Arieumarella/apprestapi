@@ -191,17 +191,12 @@ exports.loginDevice = function(req, res){
 			if(rows.length == 1){
 				
 				id = rows[0].id;
-
-			
-				console.log(token);
 				var token = jwt.sign({rows}, config1.secret,{
 					expiresIn: '24h'
 				});
 
 				var data1 = {
-					//id : id,
 					access_token: token,
-					//id_user: 23,
 					ip_address: ip.address()
 				}				
 

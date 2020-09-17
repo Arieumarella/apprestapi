@@ -2,6 +2,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 var connection = require('./koneksi');
 var morgan = require('morgan');
+const hbs = require('hbs');
+const path = require('path');
 const app = express();
 var http = require('http').createServer(app)
 var io = require('socket.io')(http);
@@ -13,6 +15,11 @@ app.use(function(req,res,next){
     req.io = io;
     next();
 });
+
+app.set('views',path.join(__dirname,'views'));
+app.set('view engine', 'hbs');
+app.use(express.static('public'));
+
 app.use(bodyParser.json());
 app.use(morgan('dev'));
 
@@ -26,11 +33,15 @@ app.use('/auth', require('./middleware'));
 
 //rootes cilent test ws
 app.get('/client1', function(req, res){
-    res.sendFile(__dirname+'/index.html');
+    res.sendFile(__dirname+'/client1.html');
 });
 
 app.get('/client2', function(req, res){
     res.sendFile(__dirname+'/client2.html');
+});
+
+app.get('/',(req,res) => {
+    res.render('index');
 });
 
 // koneksi socket
