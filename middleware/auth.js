@@ -10,17 +10,17 @@ var ip = require('ip');
 //controler registrasi user
 exports.registrasi = function(req, res){
 	var post = {
-		nama: req.body.nama,
-		username: req.body.username,
-		password: md5(req.body.password),
-		id_device: req.body.id_device,
-		tanggal_daftar: new Date()
+		iot_usr_name: req.body.iot_usr_name,
+		iot_usr_username: req.body.iot_usr_username,
+		iot_usr_password: md5(md5(req.body.iot_usr_password)),
+		iot_mc_id: req.body.iot_mc_id,
+		created_at: new Date()
 	}
 
-	if(post.nama && post.username && post.password){
+	if(post.iot_usr_name && post.iot_usr_username && post.iot_usr_password){
 
-	var query = "SELECT username FROM ?? WHERE ??=?";
-	var table = ["user", "username", post.username];
+	var query = "SELECT iot_usr_username FROM ?? WHERE ??=?";
+	var table = ["iot_users", "iot_usr_username", post.iot_usr_username];
 
 	query = mysql.format(query,table);
 
@@ -30,24 +30,25 @@ exports.registrasi = function(req, res){
 		}else{
 			if(rows.length == 0){
 				var query = "INSERT INTO ?? SET ?";
-				var table = ["user"];
+				var table = ["iot_users"];
 
 				query = mysql.format(query,table);
 				connection.query(query, post, function(error, rows){
 					if(error){
 						console.log(error);
 					}else{
-						response.ok("berhasil menambahkan data.!", res);
+						response.ok("berhasil menambahkan data bor.!", res);
 					}
 				});
 			}else{
-				response.ok("username sudah ada.!",res);
+				response.ok("username sudah ada bor.!",res);
 			}
 		}
 	})
 
 	}else{
 		return res.status(401).send({status: 401, message:'Data Kosong.!'});
+		console.log(error);
 	}
 }
 
@@ -55,12 +56,12 @@ exports.registrasi = function(req, res){
 //controler login user
 exports.login = function(req, res){
 	var post = {
-		password: req.body.password,
-		username: req.body.username
+		iot_usr_password: req.body.iot_usr_password,
+		iot_usr_username: req.body.iot_usr_username
 	};
 
 	var query = "SELECT * FROM ?? WHERE ??=? AND ??=?";
-	var table = ["user", "password", md5(post.password), "username", post.username];
+	var table = ["iot_users", "iot_usr_password", md5(md5(post.	iot_usr_password)), "iot_usr_username", post.iot_usr_username];
 
 	query = mysql.format(query,table);
 	connection.query(query, function(error, rows){
@@ -79,13 +80,13 @@ exports.login = function(req, res){
 				
 
 				var data = {
-					id_user: id_user,
-					access_token: token,
-					ip_address: ip.address()
+					iot_user_id: id_user,
+					iot_at_access_token: token,
+					iot_at_ip: ip.address()
 				}
 
 				var query ="INSERT INTO ?? SET ?";
-				var table = ["akses_token"];
+				var table = ["iot_access_token"];
 
 				query = mysql.format(query,table);
 				connection.query(query, data, function(error, rows){
@@ -95,7 +96,7 @@ exports.login = function(req, res){
 
 
 						var query ="SELECT * FROM ?? WHERE ??=? OR ??=?";
-						var table =["relay", "id_user", data.id_user, "id_user",23];
+						var table =["iot_relays", "iot_user_id", data.iot_user_id, "iot_user_id",1];
 
 						query = mysql.format(query,table);
 						connection.query(query, data, function(error, rows){
@@ -111,7 +112,7 @@ exports.login = function(req, res){
 								success: true,
 								massage: "token JWT berhasil di buat nih bor.!",
 								token: token,
-								id_user: data.id_user,
+								id_user: data.iot_user_id,
 								data_relay: data3.relay
 								
 								});
@@ -134,15 +135,15 @@ exports.login = function(req, res){
 //registrasi device
 exports.registerDevice = function(req, res){
 	var post = {
-		device_key: req.body.device_key,
-		nama_device: req.body.nama_device,
-		tanggal_daftar: new Date()
+		iot_mc_device_key: req.body.iot_mc_device_key,
+		iot_mc_device_name: req.body.iot_mc_device_name,
+		created_at: new Date()
 	}
 
-	if(post.device_key && post.nama_device){
+	if(post.iot_mc_device_key && post.iot_mc_device_name){
 
-	var query = "SELECT nama_device FROM ?? WHERE ??=?";
-	var table = ["device", "nama_device", post.nama_device];
+	var query = "SELECT iot_mc_device_name FROM ?? WHERE ??=?";
+	var table = ["iot_microcontrollers", "iot_mc_device_name", post.iot_mc_device_name];
 
 	query = mysql.format(query,table);
 
@@ -152,7 +153,7 @@ exports.registerDevice = function(req, res){
 		}else{
 			if(rows.length == 0){
 				var query = "INSERT INTO ?? SET ?";
-				var table = ["device"];
+				var table = ["iot_microcontrollers"];
 
 				query = mysql.format(query,table);
 				connection.query(query, post, function(error, rows){
@@ -177,11 +178,11 @@ exports.registerDevice = function(req, res){
 //login Device
 exports.loginDevice = function(req, res){
 	var post = {
-		device_key: req.body.device_key
+		iot_mc_device_key: req.body.iot_mc_device_key
 	};
 
 	var query = "SELECT * FROM ?? WHERE ??=?";
-	var table = ["device", "device_key", post.device_key];
+	var table = ["iot_microcontrollers", "iot_mc_device_key", post.iot_mc_device_key];
 
 	query = mysql.format(query,table);
 	connection.query(query, function(error, rows){
@@ -196,12 +197,12 @@ exports.loginDevice = function(req, res){
 				});
 
 				var data1 = {
-					access_token: token,
-					ip_address: ip.address()
+					iot_at_access_token: token,
+					iot_at_ip: ip.address()
 				}				
 
 				var query ="INSERT INTO ?? SET ?";
-				var table = ["akses_token"];
+				var table = ["iot_access_token"];
 
 				query = mysql.format(query,table);
 				connection.query(query, data1, function(error, rows){

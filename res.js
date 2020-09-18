@@ -10,6 +10,16 @@ exports.ok = function (values, res) {
     res.end();
 };
 
+exports.no = function (values, res) {
+    var data = {
+        'status': 403,
+        'massage': values
+    };
+
+    res.json(data);
+    res.end();
+};
+
 
 exports.yak = function (values, res) {
     var data = {

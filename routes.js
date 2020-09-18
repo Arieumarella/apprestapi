@@ -14,9 +14,17 @@ module.exports = function (app) {
     app.route('/relayid')
         .get(verifikasi(),jsonku.m_tampilrelayid);
 
-
     app.route('/kondisirelay')
         .put(verifikasi(),jsonku.kondisirelay);
+
+    app.route('/relay')
+        .post(verifikasi(),jsonku.m_tambahrelay);
+
+    app.route('/relay')
+        .delete(verifikasi(),jsonku.m_hapusrelay);
+
+    app.route('/relay')
+        .put(verifikasi(),jsonku.m_editerilay)
 
 
 
@@ -24,8 +32,6 @@ module.exports = function (app) {
      app.route('/m_relay')
         .get(verifikasi(),jsonku.m_mikrogetrelay);
 
-    app.route('/m_relay')
-        .delete(jsonku.m_hapusrelay);
 
     app.route('/m_relay')
         .post(jsonku.m_tambahrelay);
@@ -33,8 +39,7 @@ module.exports = function (app) {
     app.route('/m_relayid')
         .get(jsonku.m_tampilrelayid);
 
-    app.route('/m_relay')
-        .put(jsonku.m_editerilay)
+    
 
 
 }
