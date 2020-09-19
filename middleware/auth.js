@@ -268,7 +268,7 @@ exports.edite_user = function(req, res){
 							res.json({
 									"status"	: 200,
 									"auth"		: true,
-									"massage"	: "relay data changed successfully.!"
+									"massage"	: "user data changed successfully.!"
 									});
 						}
 
@@ -345,6 +345,137 @@ exports.delete_user =function(req, res){
 					"status"	: 401,
 					"auth"		: false,
 					"massage"	: "user id not found.!"
+				});
+			}
+		}
+
+	});
+
+	}else{
+				res.json({
+					"status"	: 401,
+					"auth"		: false,
+					"massage"	: "the parameter passed is empty.!!"
+					});
+	}
+
+
+}
+
+exports.edite_mc = function(req, res){
+	var post = {
+		id 						: req.body.id,
+		iot_mc_device_key 		: req.body.iot_mc_device_key,
+		iot_mc_device_name 		: req.body.	iot_mc_device_name,
+	}
+
+	if (post.id && post.iot_mc_device_key && post.iot_mc_device_name) {
+
+		var query = "SELECT * FROM ?? WHERE ??=?";
+		var table = ["iot_microcontrollers", "id", post.id];
+
+		query = mysql.format(query,table);
+		connection.query(query, function(error, rows){
+			if (error) {
+				console.log(error);
+			}else{
+
+				if (rows.length) {
+
+					var password = rows[0].iot_usr_password; 
+
+					var query = "UPDATE ?? SET iot_mc_device_key=?, iot_mc_device_name=? WHERE id=?";
+					var table = ["iot_microcontrollers", post.iot_mc_device_key, post.iot_mc_device_name, post.id];
+
+					query = mysql.format(query,table);
+					connection.query(query, function(error, rows){
+						if (error) {
+							res.json({
+									"status"	: 403,
+									"auth"		: false,
+									"massage"	: "microcontroller id not found.!"
+									});
+						}else{
+							res.json({
+									"status"	: 200,
+									"auth"		: true,
+									"massage"	: "microcontroller data changed successfully.!"
+									});
+						}
+
+					});
+
+
+				}else{
+					res.json({
+					"status"	: 401,
+					"auth"		: false,
+					"massage"	: "microcontroller id not found.!"
+					});
+				}
+				
+			}
+
+		});
+
+
+	}else{
+		res.json({
+					"status"	: 401,
+					"auth"		: false,
+					"massage"	: "the parameter you submitted is missing / empty.!"
+				});
+	}
+}
+
+exports.delete_mc =function(req, res){
+
+	var post = {
+		id 	: req.body.id
+	}
+
+	if (post.id) {
+
+	var query = "SELECT * FROM ?? WHERE ??=?";
+	var table = ["iot_microcontrollers", "id", post.id];
+
+	query = mysql.format(query,table);
+	connection.query(query, function(error, rows){
+		if (error) {
+			console.log(error);
+		}else{
+			if (rows.length){
+
+				var query = "DELETE FROM ?? WHERE ??=?";
+				var table = ["iot_microcontrollers", "id", post.id];
+
+				query = mysql.format(query,table);
+				connection.query(query, function(error, rows){
+					if (error) {
+
+						res.json({
+						"status"	: 401,
+						"auth"		: false,
+						"massage"	: error
+						});
+
+						console.log(error);
+
+					}else{
+						res.json({
+						"status"	: 200,
+						"auth"		: true,
+						"massage"	: "microcontrollers deleted successfully.!"
+						});
+					}
+
+				});
+
+			}else{
+				res.json({
+					"status"	: 401,
+					"auth"		: false,
+					"massage"	: "microcontrollers id not found.!"
 				});
 			}
 		}

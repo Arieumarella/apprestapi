@@ -14,6 +14,8 @@ router.delete('/api/pogung/delete_user',verifikasi(), auth.delete_user);
 //regis dan login device
 router.post('/api/pogung/device/register', auth.registerDevice);
 router.post('/api/pogung/device/login', auth.loginDevice);
+router.put('/api/pogung/device/edite_mc',verifikasi(), auth.edite_mc);
+router.delete('/api/pogung/device/delete_mc',verifikasi(), auth.delete_mc);
 
 
 
