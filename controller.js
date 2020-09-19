@@ -160,18 +160,6 @@ exports.m_hapusrelay = function(req, res){
 	}
 };
 
-//menampilkan relay_kepunyaan
-exports.relay_kepunyaan = function(req, res){
-	connection.query('SELECT user.id, user.nama, relay.id, relay.nama_relay FROM relay_kepunyaan JOIN relay JOIN user WHERE relay_kepunyaan.id_relay = relay.id AND relay_kepunyaan.id_user = user.id ORDER BY relay_kepunyaan.id',
-		function(error, rows, fileds){
-			if(error){
-				console.log(error);
-			}else{
-				respon.oknested(rows, res);
-			}
-		}
-		)
-}
 
 //on off data relay
 exports.kondisirelay = function(req, res){

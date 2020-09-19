@@ -41,10 +41,10 @@
         console.log(data);
       });
 
-      socket.emit('onOffRelay', {token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb3dzIjpbeyJpZCI6MjIsImlkX2RldmljZSI6MSwibmFtYSI6ImFyaWUgdW1hcnVkaW4iLCJ1c2VybmFtZSI6InVtYXIiLCJwYXNzd29yZCI6IjkyZGViM2YyNzRhYWVlMjM2MTk0YzA1NzI5YmZhNDQzIiwidGFuZ2dhbF9kYWZ0YXIiOiIyMDIwLTA4LTI5VDE3OjAwOjAwLjAwMFoifV0sImlhdCI6MTYwMDExMDQyNywiZXhwIjoxNjAwMTk2ODI3fQ.Rq3sLZEwQm3sfXPJyHoGJvf1B56-C_Vd8IB2u1FY3-0',
-        id_relay: '10',
-        id_device: '1',
-        kondisi: '0'
+      socket.emit('onOffRelay', {token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb3dzIjpbeyJpZCI6MiwiaW90X21jX2lkIjoxLCJpb3RfdXNyX25hbWUiOiJ5b2xhbiIsImlvdF91c3JfdXNlcm5hbWUiOiJ5b2xhbiIsImlvdF91c3JfcGFzc3dvcmQiOiJmMjVmOThlZjRkMDhhMTc3ZWIzYTk0OTQyNTY4MjdkZSIsImNyZWF0ZWRfYXQiOiIyMDIwLTA5LTE5VDA0OjI0OjA3LjAwMFoiLCJ1cGRhdGVkX2F0IjpudWxsfV0sImlhdCI6MTYwMDQ4OTQ2NSwiZXhwIjoxNjAwNTc1ODY1fQ.cOSO17VX8_xksSusNZ1CXoLJF77kXw3rlGRTBWsyXvg',
+        iot_id_relay: '2',
+        iot_mc_id: '1',
+        iot_relay_condition: '0'
       });
 
        socket.on('onOff.Balas', function(data){
