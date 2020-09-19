@@ -229,3 +229,135 @@ exports.loginDevice = function(req, res){
 		}
 	});
 }
+
+exports.edite_user = function(req, res){
+	var post = {
+		id 					: req.body.id,
+		iot_mc_id 			: req.body.iot_mc_id,
+		iot_usr_name 		: req.body.iot_usr_name,
+		iot_usr_username	: req.body.iot_usr_username
+	}
+
+	if (post.id && post.iot_mc_id && post.iot_usr_name && post.iot_usr_username) {
+
+		var query = "SELECT * FROM ?? WHERE ??=?";
+		var table = ["iot_users", "id", post.id];
+
+		query = mysql.format(query,table);
+		connection.query(query, function(error, rows){
+			if (error) {
+				console.log(error);
+			}else{
+
+				if (rows.length) {
+
+					var password = rows[0].iot_usr_password; 
+
+					var query = "UPDATE ?? SET iot_mc_id=?, iot_usr_name=?, iot_usr_username=?,iot_usr_password=? WHERE id=?";
+					var table = ["iot_users", post.iot_mc_id, post.iot_usr_name, post.iot_usr_username, password, post.id];
+
+					query = mysql.format(query,table);
+					connection.query(query, function(error, rows){
+						if (error) {
+							res.json({
+									"status"	: 403,
+									"auth"		: false,
+									"massage"	: "microcontroller id not found.!"
+									});
+						}else{
+							res.json({
+									"status"	: 200,
+									"auth"		: true,
+									"massage"	: "relay data changed successfully.!"
+									});
+						}
+
+					});
+
+
+				}else{
+					res.json({
+					"status"	: 401,
+					"auth"		: false,
+					"massage"	: "user id not found.!"
+					});
+				}
+				
+			}
+
+		});
+
+
+	}else{
+		res.json({
+					"status"	: 401,
+					"auth"		: false,
+					"massage"	: "the parameter you submitted is missing / empty.!"
+				});
+	}
+}
+
+exports.delete_user =function(req, res){
+
+	var post = {
+		id 	: req.body.id
+	}
+
+	if (post.id) {
+
+	var query = "SELECT * FROM ?? WHERE ??=?";
+	var table = ["iot_users", "id", post.id];
+
+	query = mysql.format(query,table);
+	connection.query(query, function(error, rows){
+		if (error) {
+			console.log(error);
+		}else{
+			if (rows.length){
+
+				var query = "DELETE FROM ?? WHERE ??=?";
+				var table = ["iot_users", "id", post.id];
+
+				query = mysql.format(query,table);
+				connection.query(query, function(error, rows){
+					if (error) {
+
+						res.json({
+						"status"	: 401,
+						"auth"		: false,
+						"massage"	: error
+						});
+
+						console.log(error);
+
+					}else{
+						res.json({
+						"status"	: 200,
+						"auth"		: true,
+						"massage"	: "user deleted successfully.!"
+						});
+					}
+
+				});
+
+			}else{
+				res.json({
+					"status"	: 401,
+					"auth"		: false,
+					"massage"	: "user id not found.!"
+				});
+			}
+		}
+
+	});
+
+	}else{
+				res.json({
+					"status"	: 401,
+					"auth"		: false,
+					"massage"	: "the parameter passed is empty.!!"
+					});
+	}
+
+
+}
