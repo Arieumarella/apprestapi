@@ -82,6 +82,7 @@ exports.login = function(req, res){
 				var data = {
 					iot_user_id: id_user,
 					iot_at_access_token: token,
+					//iot_user_id_admin:'1',
 					iot_at_ip: ip.address()
 				}
 
@@ -133,7 +134,7 @@ exports.login = function(req, res){
 
 
 //registrasi device
-exports.registerDevice = function(req, res){
+exports.createDevice = function(req, res){
 	var post = {
 		iot_mc_device_key: req.body.iot_mc_device_key,
 		iot_mc_device_name: req.body.iot_mc_device_name,
@@ -456,7 +457,7 @@ exports.delete_mc =function(req, res){
 						res.json({
 						"status"	: 401,
 						"auth"		: false,
-						"massage"	: error
+						"massage"	: "can't delete MC because it's still used by the user.!"
 						});
 
 						console.log(error);
@@ -491,4 +492,168 @@ exports.delete_mc =function(req, res){
 	}
 
 
+}
+
+exports.allUser = function(req, res){
+
+				var query = "SELECT * FROM ??";
+				var table = ["iot_users"];
+
+				query = mysql.format(query,table);
+				connection.query(query, function(error, rows){
+					if (error) {
+
+						res.json({
+						"status"	: 401,
+						"auth"		: false,
+						"massage"	: error
+						});
+
+						console.log(error);
+
+					}else{
+						res.json({
+						"status"	: 200,
+						"auth"		: true,
+						"massage"	: "successfully.!",
+						"allUser"   : rows
+						});
+
+					}
+
+				});
+}
+
+exports.byId = function(req, res){
+
+var	post = {
+		id : req.body.id
+	}
+
+				if (post.id) {
+
+				var query = "SELECT * FROM ?? WHERE id=?";
+				var table = ["iot_users", post.id];
+
+				query = mysql.format(query,table);
+				connection.query(query, function(error, rows){
+					if (error) {
+
+						res.json({
+						"status"	: 401,
+						"auth"		: false,
+						"massage"	: error
+						});
+
+						console.log(error);
+
+					}else{
+						if (rows.length) {
+						res.json({
+						"status"	: 200,
+						"auth"		: true,
+						"massage"	: "successfully.!",
+						"allUser"   : rows
+						});
+						}else{
+							res.json({
+							"status"	: 401,
+							"auth"		: false,
+							"massage"	: 'user not found.!'
+							});
+						}
+
+					}
+
+				});
+
+			}else{
+				res.json({
+						"status"	: 401,
+						"auth"		: false,
+						"massage"	: "empty / insufficient parameter.!"
+						});
+			}
+}
+
+exports.allMC = function(req, res){
+
+				var query = "SELECT * FROM ??";
+				var table = ["iot_microcontrollers"];
+
+				query = mysql.format(query,table);
+				connection.query(query, function(error, rows){
+					if (error) {
+
+						res.json({
+						"status"	: 401,
+						"auth"		: false,
+						"massage"	: error
+						});
+
+						console.log(error);
+
+					}else{
+						res.json({
+						"status"	: 200,
+						"auth"		: true,
+						"massage"	: "successfully.!",
+						"allUser"   : rows
+						});
+
+					}
+
+				});
+}
+
+exports.MCbyID= function(req, res){
+
+var	post = {
+		id : req.body.id
+	}
+
+				if (post.id) {
+
+				var query = "SELECT * FROM ?? WHERE id=?";
+				var table = ["iot_microcontrollers", post.id];
+
+				query = mysql.format(query,table);
+				connection.query(query, function(error, rows){
+					if (error) {
+
+						res.json({
+						"status"	: 401,
+						"auth"		: false,
+						"massage"	: error
+						});
+
+						console.log(error);
+
+					}else{
+						if (rows.length) {
+						res.json({
+						"status"	: 200,
+						"auth"		: true,
+						"massage"	: "successfully.!",
+						"allUser"   : rows
+						});
+						}else{
+							res.json({
+							"status"	: 401,
+							"auth"		: false,
+							"massage"	: 'MC not found.!'
+							});
+						}
+
+					}
+
+				});
+
+			}else{
+				res.json({
+						"status"	: 401,
+						"auth"		: false,
+						"massage"	: "empty / insufficient parameter.!"
+						});
+			}
 }

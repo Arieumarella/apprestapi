@@ -1,6 +1,6 @@
 'use strict';
 
-var verifikasi = require('./middleware/token_verifikasi');
+var verifikasi = require('./middleware/token_verifikasiAdmin');
 
 module.exports = function (app) {
     var jsonku = require('./controller');
